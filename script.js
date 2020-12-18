@@ -1,13 +1,19 @@
-function Animal(name){
-    this.name = name;
-}
+class Animal{
+  constructor(name){
+        this.name =name;
+        
+    }
+  action(){
+     
+        document.getElementById(this.actionSoundName).play();
 
-Animal.prototype.action = function(){
-  document.getElementById(this.actionSoundName).play();
-  
-}
+    }
 
-Animal.prototype.putInTheDocument = function(){
+  getImage(){
+        let myImage =document.querySelector('img');
+        myImage.src=this.animalImage;
+    }
+  putInTheDocument(){
     var petsTable = document.getElementById("petsTable");
     var petTR = document.createElement("tr");
   
@@ -15,7 +21,7 @@ Animal.prototype.putInTheDocument = function(){
     petNameTD.textContent = this.name;
     petTR.appendChild(petNameTD);
   
-    var petLegsTD = document.createElement("td");
+    var petLegsTD = document.createElement("td"); 
     petLegsTD.textContent = this.legs;
     petTR.appendChild(petLegsTD);
   
@@ -26,30 +32,38 @@ Animal.prototype.putInTheDocument = function(){
     petTR.appendChild(petActionTD);
     
     petActionTDButton.onclick = this.action.bind(this);
-    petsTable.querySelector("tbody").appendChild(petTR)
+    petsTable.querySelector("tbody").appendChild(petTR);
+
+    petTR.addEventListener('click',this.getImage.bind(this));
+
+}
+}
+
+class Cat extends Animal{
+    constructor(name,legs,actionText,animalImage,actionSoundName){
+        super(name);
+        this.legs=4;
+        this.actionSoundName='meow';
+        this.actionText='Meoow';
+        this.animalImage='https://static.birgun.net/resim/haber-detay-resim/2018/11/23/en-konuskan-kedi-turu-hangisi-534086-5.jpg'
+    }
 }
 
 
-function Cat(name){
-    Animal.call(this, name);
-    this.legs = 4;
-    this.actionText = "Meoow"
-    this.actionSoundName = "meow"
+
+class Monkey extends Animal{
+    constructor(name,legs,actionText,animalImage,actionSoundName){
+        super(name);
+        this.legs=2;
+        this.actionSoundName='scream';
+        this.actionText='Scream';
+        this.animalImage='https://static9.depositphotos.com/1594920/1088/i/950/depositphotos_10880072-stock-photo-mixed-breed-monkey-between-chimpanzee.jpg'
+    }
 }
 
-Cat.prototype = Animal.prototype;
 
-function Monkey(name){
-    Animal.call(this, name);
-    this.legs = 2;
-    this.actionText = "Scream";
-    this.actionSoundName = "scream";
-}
-
-Monkey.prototype = Animal.prototype;
-
-var Mila = new Cat("Mila");
+var Mila = new Cat('Mila');
 Mila.putInTheDocument();
 
-var Charlie = new Monkey("Charlie");
+var Charlie = new Monkey('Charlie');
 Charlie.putInTheDocument();
